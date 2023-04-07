@@ -15,26 +15,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-// const client = jwksClient({
-//   jwksUri: 'https://api.usekeyp.com/oauth/jwks'
-// });
-
-// function getKey(header, cb) {
-//   client.getSigningKey(header.kid, function (err, key) {
-//     const signingKey = key.publicKey || key.rsaPublicKey;
-//     cb(null, signingKey);
-//   });
-// }
-
-// const jwtOptions = {
-//   secret: getKey,
-//   // audience: 'your-audience',
-//   // issuer: 'https://{your Okta org URL}/oauth2/default'
-// };
-
-
 const callbackURL = process.env.callbackURL || 'http://localhost:3000/auth/usekeyp/callback'
-
 
 passport.use(new OAuth2Strategy({
   clientID: '36ec5460-affe-4f53-8740-48765e0e5797',
@@ -49,8 +30,7 @@ passport.use(new OAuth2Strategy({
 },
   (accessToken, refreshToken, profile, extra, cb) => {
     let { header, payload } = jwt.decode(profile.id_token, { complete: true })
-    console.log(payload)
-    return cb(null, profile);
+    return cb(null, { ...profile, ...payload });
   }
 ));
 
@@ -72,8 +52,13 @@ app.get('/success', (req, res) => {
   res.render('success');
 });
 app.get('/', (req, res) => {
+  console.log(req.session)
+  let user
+  if (req.session.passport && req.session.passport.user) {
+    user = req.session.passport.user;
+  }
   res.render('index', {
-    sessionData: req.session
+    user
   });
 });
 

@@ -79,7 +79,7 @@
 </head>
 
 <body>
-    <% if(!sessionData.passport) { %>
+    <% if(!user) { %>
         <h1>Login to start OAuth Flow</h1>
         <form id="oauth-form" method="GET" action="/auth/usekeyp">
             <input type="submit" value="Login" />
@@ -87,13 +87,13 @@
         <% } else { %>
             <h1>Session Data:</h1>
             <table class="table">
-                <% Object.entries(sessionData).forEach(([key, value])=> { %>
+                <% Object.keys(user).forEach(key=> { %>
                     <tr>
                         <td>
                             <%= key %>
                         </td>
                         <td class="long-text\">
-                            <%= JSON.stringify(value) %>
+                            <%= user[key] %>
                         </td>
                     </tr>
                     <% }) %>
