@@ -1,6 +1,4 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-
 const passport = require('passport');
 const session = require('express-session');
 const OAuth2Strategy = require('passport-oauth2').Strategy;
@@ -17,26 +15,41 @@ app.use(session({
   saveUninitialized: true
 }));
 
-const client = jwksClient({
-  jwksUri: 'https://api.usekeyp.com/oauth/jwks'
-});
+// const client = jwksClient({
+//   jwksUri: 'https://api.usekeyp.com/oauth/jwks'
+// });
+
+// function getKey(header, cb) {
+//   client.getSigningKey(header.kid, function (err, key) {
+//     const signingKey = key.publicKey || key.rsaPublicKey;
+//     cb(null, signingKey);
+//   });
+// }
+
+// const jwtOptions = {
+//   secret: getKey,
+//   // audience: 'your-audience',
+//   // issuer: 'https://{your Okta org URL}/oauth2/default'
+// };
+
 
 const callbackURL = process.env.callbackURL || 'http://localhost:3000/auth/usekeyp/callback'
 
+
 passport.use(new OAuth2Strategy({
-    clientID: '36ec5460-affe-4f53-8740-48765e0e5797',
-    callbackURL,
-    authorizationURL: 'https://app.usekeyp.com/oauth/auth',
-    tokenURL: 'https://api.usekeyp.com/oauth/token',
-    scope: ['openid email'],
-    grant_type: 'authorization_code',
-    pkce: true,
-    state: true,
-    getUserInfo: true
-  },
-  function(accessToken, refreshToken, profile, extra, cb) {
-    console.log(profile);
-    console.log(extra)
+  clientID: '36ec5460-affe-4f53-8740-48765e0e5797',
+  callbackURL,
+  authorizationURL: 'https://app.usekeyp.com/oauth/auth',
+  tokenURL: 'https://api.usekeyp.com/oauth/token',
+  scope: ['openid email'],
+  grant_type: 'authorization_code',
+  pkce: true,
+  state: true,
+  getUserInfo: true
+},
+  (accessToken, refreshToken, profile, extra, cb) => {
+    let { header, payload } = jwt.decode(profile.id_token, { complete: true })
+    console.log(payload)
     return cb(null, profile);
   }
 ));
@@ -44,11 +57,11 @@ passport.use(new OAuth2Strategy({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user);
-}); 
+});
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
@@ -67,8 +80,8 @@ app.get('/', (req, res) => {
 app.get('/auth/usekeyp', passport.authenticate('oauth2'));
 
 app.get('/auth/usekeyp/callback',
-  passport.authenticate('oauth2', { failureRedirect: '/login' }),
-  function(req, res) {
+  passport.authenticate('oauth2', { failureRedirect: '/' }),
+  function (req, res) {
     // Successful authentication, redirect to success page.
     res.redirect('/success');
   });
