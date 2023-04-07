@@ -1,0 +1,13 @@
+- To add an OAuth 2.0 KeypStrategy, install the `passport-keyp` package from npm.\\n
+- Include the `KeypStrategy` from the `passport-keyp` package and create a new instance of this strategy by incorporating your client secret and client ID from the Keyp portal or API keys in the configuration file, `passport.js`.\\n
+- Inside the configuration, passport constructor add the `KeypStrategy` using the following syntax:
+\\n```javascript
+passport.use(new KeypStrategy({
+    clientID: KEYP_CLIENT_ID,\
+    clientSecret: KEYP_CLIENT_SECRET,\
+    callbackURL: KEYP_CALLBACK_URL\
+  }, 
+  (accessToken, refreshToken, profile, done) => { }));\```
+
+- Setup an additional route for initiation and management of the OAuth2.0 handshake with Keyp API  using the `passport.authenticate()` function. The parameters should reflect the passport configuration, for example, `passport.authenticate('passport-keyp').` Once a successful authorization to Keyp API has been granted or denied, the user will be redirected to the application with the appropriate messages or actions. \\n
+- Create a callback route for Keyp on your app server that will be accessed when authorization is granted, for instance `/oauth/callback`

@@ -65,26 +65,7 @@
 
 <body>
     <h1>Login to start OAuth Flow</h1>
-    <script>
-        fetch('https://api.usekeyp.com/oauth/.well-known/openid-configuration')
-            .then(res => res.json())
-            .then(data => {
-                const authorizationEndpoint = data.authorization_endpoint;
-                const scope = data.scopes_supported.join(' ');
-                document.querySelector('#oauth-form').setAttribute('action', authorizationEndpoint);
-                document.querySelector('#scope').setAttribute('value', scope);
-            });
-    </script>
-    <form id="oauth-form" method="GET" action="">
-        <label for="client_id">Client ID:</label>
-        <input type="text" id="client_id" name="client_id" />
-        <br />
-        <label for="redirect_uri">Redirect URI:</label>
-        <input type="text" id="redirect_uri" name="redirect_uri" />
-        <br />
-        <label for="scope">Scope:</label>
-        <input type="text" id="scope" name="scope" />
-        <br />
+    <form id="oauth-form" method="GET" action="/auth/usekeyp">
         <input type="submit" value="Login" />
     </form>
 </body>
