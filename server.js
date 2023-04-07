@@ -1,10 +1,15 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
+
 const passport = require('passport');
 const session = require('express-session');
 const OAuth2Strategy = require('passport-oauth2').Strategy;
 const path = require('path')
 const app = express();
 const ejs = require('ejs');
+const jwksClient = require('jwks-rsa');
+const jwt = require('jsonwebtoken');
+
 
 app.use(session({
   secret: 'YOUR_SECRET_KEY',
@@ -12,18 +17,26 @@ app.use(session({
   saveUninitialized: true
 }));
 
+const client = jwksClient({
+  jwksUri: 'https://api.usekeyp.com/oauth/jwks'
+});
+
+const callbackURL = process.env.callbackURL || 'http://localhost:3000/auth/usekeyp/callback'
+
 passport.use(new OAuth2Strategy({
     clientID: '36ec5460-affe-4f53-8740-48765e0e5797',
-    callbackURL: 'http://localhost:3000/auth/usekeyp/callback',
+    callbackURL,
     authorizationURL: 'https://app.usekeyp.com/oauth/auth',
     tokenURL: 'https://api.usekeyp.com/oauth/token',
     scope: ['openid email'],
     grant_type: 'authorization_code',
     pkce: true,
-    state: true
+    state: true,
+    getUserInfo: true
   },
-  function(accessToken, refreshToken, profile, cb) {
+  function(accessToken, refreshToken, profile, extra, cb) {
     console.log(profile);
+    console.log(extra)
     return cb(null, profile);
   }
 ));

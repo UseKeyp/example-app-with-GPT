@@ -60,16 +60,46 @@
         input[type="submit"]:hover {
             background-color: #333333;
         }
+
+        .long-text {
+            word-wrap: break-word;
+            /* This is the new CSS property added to break long text into multiple lines */
+        }
+
+        .table {
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+            padding: 10px;
+            border: 1px solid black;
+        }
     </style>
 </head>
 
 <body>
-    <% if(!sessionData) { %>
+    <% if(!sessionData.passport) { %>
         <h1>Login to start OAuth Flow</h1>
         <form id="oauth-form" method="GET" action="/auth/usekeyp">
             <input type="submit" value="Login" />
         </form>
-        <% } %>
+        <% } else { %>
+            <h1>Session Data:</h1>
+            <table class="table">
+                <% Object.entries(sessionData).forEach(([key, value])=> { %>
+                    <tr>
+                        <td>
+                            <%= key %>
+                        </td>
+                        <td class="long-text\">
+                            <%= JSON.stringify(value) %>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </table>
+            <% } %>
+
 </body>
 
 </html>
