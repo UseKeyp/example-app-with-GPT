@@ -60,7 +60,8 @@ app.get('/', (req, res) => {
     user = req.session.passport.user;
   }
   res.render('index', {
-    user
+    user,
+    error: null
   });
 });
 
@@ -105,7 +106,14 @@ app.post('/tokens', (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-      res.send(`Token transfer failed. ${error}`);
+      let user
+      if (req.session.passport && req.session.passport.user) {
+        user = req.session.passport.user;
+      }
+      res.render('index', {
+        user,
+        error: `Token transfer failed. ${error}`
+      });
     });
 });
 
