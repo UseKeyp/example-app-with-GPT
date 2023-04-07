@@ -98,13 +98,14 @@ app.post('/tokens', (req, res) => {
     .then((response) => {
       console.log(response.data);
       // res.send('Token transfer successful!');
-      res.render('transfer', {
+      if (response.data.error) throw response.data.error
+      res.redirect('transfer', {
         hash: response.data.hash
       });
     })
     .catch((error) => {
       console.error(error);
-      res.send('Token transfer failed.');
+      res.send(`Token transfer failed. ${error}`);
     });
 });
 

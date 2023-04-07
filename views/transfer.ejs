@@ -49,6 +49,23 @@
         .link:hover {
             color: #5577CC;
         }
+
+        .button {
+            display: inline-block;
+            background-color: #3366BB;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 16px 30px;
+            border-radius: 30px;
+            transition: background-color 0.2s ease-in-out;
+            margin-top: 30px;
+        }
+
+        .button:hover {
+            background-color: #5577CC;
+        }
     </style>
 </head>
 
@@ -60,6 +77,8 @@
         </p>
         <p>View your transaction on <a class="link" href="https://polygonscan.com/tx/<%= hash %>"
                 target="_blank">PolygonScan</a>.</p>
+        <a class="button" href="/">Go Back to Home</a>
+
     </div>
 </body>
 
