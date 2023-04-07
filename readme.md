@@ -1,0 +1,1 @@
+I should clone a chosen express.js project template from Github to use as the starting point for my app using the Git clone command.

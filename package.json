@@ -11,8 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express-session": "^1.17.3",
     "express.js": "^1.0.0",
     "passport": "^0.6.0",
     "passport-oauth2": "^1.7.0"
+  },
+  "devDependencies": {
+    "@types/express-session": "^1.17.7"
   }
 }

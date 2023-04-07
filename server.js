@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
 const passportUsekeyp = require('passport-oauth2').Strategy;
-
+const path = require('path')
 const app = express();
 
 app.use(session({
@@ -35,6 +35,9 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
+
+// serve a login page for starting the oauth flow using express.static
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/auth/usekeyp', passport.authenticate('usekeyp'));
 
