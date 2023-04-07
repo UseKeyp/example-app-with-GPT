@@ -42,6 +42,12 @@ passport.deserializeUser(function(user, done) {
 // serve a login page for starting the oauth flow using express.static
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.get('/success', (req, res) => {
+  res.render('success');
+});
+app.get('/', (req, res) => {
+  res.render('index');
+});
 
 app.get('/auth/usekeyp', passport.authenticate('oauth2'));
 
@@ -49,7 +55,7 @@ app.get('/auth/usekeyp/callback',
   passport.authenticate('oauth2', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect to success page.
-    res.redirect('/success.html');
+    res.redirect('/success');
   });
 
 app.listen(3000, () => {
