@@ -7,7 +7,9 @@ const app = express();
 const ejs = require('ejs');
 const jwksClient = require('jwks-rsa');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
 
+app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
   secret: 'YOUR_SECRET_KEY',
@@ -70,6 +72,41 @@ app.get('/auth/usekeyp/callback',
     // Successful authentication, redirect to success page.
     res.redirect('/success');
   });
+
+app.post('/tokens', (req, res) => {
+  const { tokenAddress, tokenType, toUserUsername, toUserProviderType, amount } = req.body;
+
+  const data = {
+    toUserUsername,
+    toUserProviderType,
+    tokenAddress,
+    tokenType,
+    amount,
+  }
+
+  const ACCESS_TOKEN = req.session.passport.user.access_token
+
+  const options = {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${ACCESS_TOKEN}`,
+    },
+  }
+
+  axios
+    .post('https://api.usekeyp.com/v1/tokens/transfers', data, options)
+    .then((response) => {
+      console.log(response.data);
+      // res.send('Token transfer successful!');
+      res.render('transfer', {
+        hash: response.data.hash
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.send('Token transfer failed.');
+    });
+});
 
 app.listen(3000, () => {
   console.log('Server started on port 3000');

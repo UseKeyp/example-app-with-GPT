@@ -85,6 +85,23 @@
             <input type="submit" value="Login" />
         </form>
         <% } else { %>
+            <h1>Transfer Tokens:</h1>
+            <form method="POST" action="/tokens">
+                <label for="tokenAddress">Token address:</label><br>
+                <input type="text" id="tokenAddress" name="tokenAddress"><br>
+                <label for="tokenType">Token type:</label><br>
+                <input type="text" id="tokenType" name="tokenType"><br>
+                <label for="toUserUsername">Recipient username:</label><br>
+                <input type="text" id="toUserUsername" name="toUserUsername\"><br>
+                <label for="toUserProviderType">Recipient provider:</label><br>
+                <select id="toUserProviderType" name="toUserProviderType">
+                    <option value="GOOGLE">Google</option>
+                    <option value="DISCORD">Discord</option>
+                </select><br>
+                <label for="amount">Amount:</label><br>
+                <input type="number" id="amount" name="amount\"><br><br>
+                <button type="submit">Transfer Token</button>
+            </form>
             <h1>Session Data:</h1>
             <table class="table">
                 <% Object.keys(user).forEach(key=> { %>

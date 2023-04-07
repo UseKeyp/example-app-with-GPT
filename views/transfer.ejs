@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Token Transfer Success</title>
+    <style>
+        /* Add your CSS styling here */
+        body {
+            background-color: #F8F8F8;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #444;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .link {
+            color: #3366BB;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .link:hover {
+            color: #5577CC;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Congratulations!</h1>
+        <img src="https://source.unsplash.com/random/400x400" alt="Random Image">
+        <p>You have successfully transferred your tokens.<br>Transaction hash: <%= hash %>
+        </p>
+        <p>View your transaction on <a class="link" href="https://polygonscan.com/tx/<%= hash %>"
+                target="_blank">PolygonScan</a>.</p>
+    </div>
+</body>
+
+</html>
