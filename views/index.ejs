@@ -151,20 +151,24 @@
                 <label for="tokenAddress">Token address:</label><br>
                 <input type="text" id="tokenAddress" name="tokenAddress"><br>
                 <label for="tokenType">Token type:</label><br>
-                <select id="tokenType" name="tokenType">
+                <select id="tokenType" name="tokenType" onchange="showTokenId()">
                     <option value="ERC20">ERC20</option>
                     <option value="ERC721">ERC721</option>
                     <option value="ERC1155">ERC1155</option>
                 </select><br>
+                <div id="tokenIdContainer" style="display:none;">
+                    <label for="tokenId">Token ID:</label><br>
+                    <input type="text" id="tokenId" name="tokenId\"><br>
+                </div>
                 <label for="toUserUsername">Recipient username:</label><br>
-                <input type="text" id="toUserUsername" name="toUserUsername\"><br>
+                <input type="text" id="toUserUsername" name="toUserUsername"><br>
                 <label for="toUserProviderType">Recipient provider:</label><br>
                 <select id="toUserProviderType" name="toUserProviderType">
                     <option value="GOOGLE">Google</option>
                     <option value="DISCORD">Discord</option>
                 </select><br>
                 <label for="amount">Amount:</label><br>
-                <input type="number" id="amount" name="amount\"><br><br>
+                <input type="number" id="amount" name="amount"><br><br>
                 <button type="submit">Transfer Token</button>
                 <% if (error) { %>
                     <p style="color: red;">
@@ -172,6 +176,18 @@
                     </p>
                     <% } %>
             </form>
+
+            <script>
+                function showTokenId() {
+                    var tokenType = document.getElementById("tokenType").value;
+                    var tokenIdContainer = document.getElementById("tokenIdContainer");
+                    if (tokenType === "ERC721") {
+                        tokenIdContainer.style.display = "block";
+                    } else {
+                        tokenIdContainer.style.display = "none";
+                    }
+                }
+            </script>
 
             <h1>Session Data:</h1>
             <table class="table">
