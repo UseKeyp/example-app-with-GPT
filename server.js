@@ -46,7 +46,9 @@ app.get('/success', (req, res) => {
   res.render('success');
 });
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', {
+    sessionData: req.session
+  });
 });
 
 app.get('/auth/usekeyp', passport.authenticate('oauth2'));

@@ -64,10 +64,12 @@
 </head>
 
 <body>
-    <h1>Login to start OAuth Flow</h1>
-    <form id="oauth-form" method="GET" action="/auth/usekeyp">
-        <input type="submit" value="Login" />
-    </form>
+    <% if(!sessionData) { %>
+        <h1>Login to start OAuth Flow</h1>
+        <form id="oauth-form" method="GET" action="/auth/usekeyp">
+            <input type="submit" value="Login" />
+        </form>
+        <% } %>
 </body>
 
 </html>
